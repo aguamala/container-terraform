@@ -3,11 +3,6 @@
 #Exit immediately if a pipeline exits  with a non-zero status
 set -e
 
-if [ -z "$TERRAFORM_PLAN" ]; then
-    echo >&2 'error: missing TERRAFORM_PLAN environment variable'
-    exit 1
-fi
-
 #if [ -z "$TERRAFORM_REMOTE_FALSE" ]; then
     #defaults to s3
 if [ -z "$TERRAFORM_REMOTE_BACKEND" ]; then
@@ -37,12 +32,13 @@ else
 fi
 
 terraform remote pull
+terraform get
 #fi
 
 if [ "$1" = 'plan' ]; then
-    exec terraform plan -module-depth=-1
+    exec terraform plan -module-depth=-1 -out=plans/$(git rev-parse HEAD).out
 fi
 
 if [ "$1" = 'apply' ]; then
-    exec terraform apply $TERRAFORM_PLAN
+    exec terraform apply plans/$(git rev-parse HEAD).out
 fi
