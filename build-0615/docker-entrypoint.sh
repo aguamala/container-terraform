@@ -36,6 +36,9 @@ terraform get
 #fi
 
 if [ "$1" = 'plan' ]; then
+    if [ ! -d "plans" ]; then
+        mkdir plans
+    fi
     exec terraform plan -module-depth=-1 -out=plans/$(git rev-parse HEAD).out
 fi
 
