@@ -44,5 +44,5 @@ fi
 
 if [ "$1" = 'apply' ]; then
     exec terraform apply plans/$(git rev-parse HEAD).out
-    rm plans/$(git rev-parse HEAD).out
+    rm -f plans/$(git rev-parse HEAD).out
 fi
