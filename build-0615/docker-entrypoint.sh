@@ -39,10 +39,11 @@ if [ "$1" = 'plan' ]; then
     if [ ! -d "plans" ]; then
         mkdir plans
     fi
-    exec terraform plan -module-depth=-1 -out=plans/$(git rev-parse HEAD).out
+    terraform plan -module-depth=-1 -out=plans/$(git rev-parse HEAD).out
 fi
 
 if [ "$1" = 'apply' ]; then
-    exec terraform apply plans/$(git rev-parse HEAD).out
+    terraform apply plans/$(git rev-parse HEAD).out
+    echo >&2 'remove plan: '$(git rev-parse HEAD).out
     rm -f plans/$(git rev-parse HEAD).out
 fi
