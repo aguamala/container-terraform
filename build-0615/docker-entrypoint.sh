@@ -3,8 +3,6 @@
 #Exit immediately if a pipeline exits  with a non-zero status
 set -e
 
-#if [ -z "$TERRAFORM_REMOTE_FALSE" ]; then
-    #defaults to s3
 if [ -z "$TERRAFORM_REMOTE_BACKEND" ]; then
     TERRAFORM_REMOTE_BACKEND=s3
 fi
@@ -33,7 +31,6 @@ fi
 
 terraform remote pull
 terraform get
-#fi
 
 if [ "$1" = 'plan' ]; then
     if [ ! -d "tmp-terraform-plans" ]; then
