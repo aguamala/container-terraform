@@ -36,7 +36,7 @@ terraform get
 #fi
 
 if [ "$1" = 'plan' ]; then
-    if [ ! -d "plans" ]; then
+    if [ ! -d "tmp-terraform-plans" ]; then
         mkdir tmp-terraform-plans
     fi
     terraform plan -module-depth=-1 -out=tmp-terraform-plans/$(git rev-parse HEAD).out
