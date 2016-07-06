@@ -37,13 +37,13 @@ terraform get
 
 if [ "$1" = 'plan' ]; then
     if [ ! -d "plans" ]; then
-        mkdir plans
+        mkdir tmp-terraform-plans
     fi
-    terraform plan -module-depth=-1 -out=plans/$(git rev-parse HEAD).out
+    terraform plan -module-depth=-1 -out=tmp-terraform-plans/$(git rev-parse HEAD).out
 fi
 
 if [ "$1" = 'apply' ]; then
-    terraform apply plans/$(git rev-parse HEAD).out
-    echo >&2 'remove plan: '$(git rev-parse HEAD).out
-    rm -f plans/$(git rev-parse HEAD).out
+    terraform apply tmp-terraform-plans/$(git rev-parse HEAD).out
+    echo >&1 'remove plan: '$(git rev-parse HEAD).out
+    rm -f tmp-terraform-plans/$(git rev-parse HEAD).out
 fi
