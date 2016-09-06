@@ -1,0 +1,17 @@
+#docker run fails when I try to override entrypoint :(
+
+FROM alpine:latest
+MAINTAINER "HashiCorp Terraform Team <terraform@hashicorp.com>"
+
+ENV TERRAFORM_VERSION=0.7.3
+ENV TERRAFORM_SHA256SUM=4e985f222ec99616e8c730d737c9b400f9d73bf0c436661ec888b2406d3a6f39
+
+RUN apk add --update git curl && \
+    curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip > terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    echo "${TERRAFORM_SHA256SUM}  terraform_${TERRAFORM_VERSION}_linux_amd64.zip" > terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
+    sha256sum -cs terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /bin && \
+    rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    apk del git
+
+ENTRYPOINT ["/bin/terraform"]
