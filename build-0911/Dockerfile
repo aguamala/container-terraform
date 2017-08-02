@@ -1,8 +1,8 @@
 FROM aguamala/centos:7
 MAINTAINER "gabo" <aguamala@deobieta.com>
 
-ENV TERRAFORM_VERSION=0.7.3
-ENV TERRAFORM_SHA256SUM=4e985f222ec99616e8c730d737c9b400f9d73bf0c436661ec888b2406d3a6f39
+ENV TERRAFORM_VERSION=0.9.11
+ENV TERRAFORM_SHA256SUM=804d31cfa5fee5c2b1bff7816b64f0e26b1d766ac347c67091adccc2626e16f3
 
 RUN yum install -y git curl && \
     curl https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip > terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
@@ -10,7 +10,6 @@ RUN yum install -y git curl && \
     sha256sum -c terraform_${TERRAFORM_VERSION}_SHA256SUMS && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin && \
     rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    yum remove -y git && \
     yum clean all
 
 COPY docker-entrypoint.sh /entrypoint.sh
